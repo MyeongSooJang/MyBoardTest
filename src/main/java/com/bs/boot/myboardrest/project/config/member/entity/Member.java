@@ -12,11 +12,11 @@ import lombok.experimental.SuperBuilder;
 @MappedSuperclass
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@SuperBuilder
+@Entity
 // @EntityListeners(AuditingEntityListener.class)
 // 언제, 누구에 의해 만들어지고 수정되었는지 JPA가 알아서 관리 하도록
 
-public class Member extends BaseEntity {
+public class Member  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +34,6 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Grade memberGrade;
     private Integer memberClass;
+    private Integer memberClassNo;
+    private String memberType;
 }
