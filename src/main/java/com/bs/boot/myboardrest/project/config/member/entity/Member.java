@@ -13,10 +13,11 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table
 // @EntityListeners(AuditingEntityListener.class)
 // 언제, 누구에 의해 만들어지고 수정되었는지 JPA가 알아서 관리 하도록
 
-public class Member  {
+public class Member  extends  BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
