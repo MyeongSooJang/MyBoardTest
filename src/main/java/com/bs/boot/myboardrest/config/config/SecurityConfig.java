@@ -38,7 +38,7 @@ public class SecurityConfig {
                         "http://localhost:5173", // 로컬 Vue 서버
                         "http://ec2-43-200-2-244.ap-northeast-2.compute.amazonaws.com:443",
                         "http://ec2-43-200-2-244.ap-northeast-2.compute.amazonaws.com:80",
-                        "http://ec2-43-200-2-244.ap-northeast-2.compute.amazonaws.com:5173"
+
                 )
         );
         corsConfiguration.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
