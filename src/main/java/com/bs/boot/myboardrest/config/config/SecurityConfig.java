@@ -36,8 +36,7 @@ public class SecurityConfig {
                         "http://43.200.2.244", // 배포 프론트 서버
                         "http://localhost:8080",
                         "http://localhost:5173", // 로컬 Vue 서버
-                        "http://ec2-43-200-2-244.ap-northeast-2.compute.amazonaws.com:443",
-                        "http://ec2-43-200-2-244.ap-northeast-2.compute.amazonaws.com:80",
+
 
                 )
         );
