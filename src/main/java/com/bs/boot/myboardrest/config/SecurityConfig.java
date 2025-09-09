@@ -10,5 +10,6 @@ import org.springframework.web.cors.CorsConfiguration;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    // cors 설정하기
     CorsConfiguration corsConfiguration = new CorsConfiguration();
 }
