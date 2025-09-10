@@ -11,5 +11,6 @@ import org.springframework.web.cors.CorsConfiguration;
 public class SecurityConfig {
 
     // cors 설정하기
+    //REDIS 설정하기
     CorsConfiguration corsConfiguration = new CorsConfiguration();
 }
