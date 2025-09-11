@@ -12,5 +12,6 @@ public class SecurityConfig {
 
     // cors 설정하기
     //REDIS 설정하기
+    // black List 구현하기
     CorsConfiguration corsConfiguration = new CorsConfiguration();
 }
