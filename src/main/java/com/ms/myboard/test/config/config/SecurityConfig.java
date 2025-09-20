@@ -1,6 +1,5 @@
 package com.ms.myboard.test.config.config;
 
-import com.airoom.airoom.common.token.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     @Primary
@@ -35,14 +33,12 @@ public class SecurityConfig {
                 List.of(
                         "http://43.200.2.244", // 배포 프론트 서버
                         "http://localhost:8080",
-                        "http://localhost:5173", // 로컬 Vue 서버
-
-
+                        "http://localhost:5173"// 로컬 Vue 서버
                 )
         );
-        corsConfiguration.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         // 허용할 Http 메소드를 입력해준다.
-        corsConfiguration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+        corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         // 브라우저 요청 해더에 보내도 되는 것 Authorization -> JWT / JSON -> Content-Type
 
 //        corsConfiguration.setExposedHeaders(List.of("Authorization")); -> Refresh Token에서 필요없음
@@ -71,35 +67,33 @@ public class SecurityConfig {
                 // 어떤 브라우저에서 우리
                 .csrf(AbstractHttpConfigurer::disable) // csrf : jwt 인증이면 비활성화 시킴
 
-                .sessionManagement(sm-> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 세션 관리 - Stateless -> 세션 저장을 피함
 
-                .exceptionHandling(ex ->ex
-                        .authenticationEntryPoint((request,response,exception)->{
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint((request, response, exception) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);              // 401: 인증 안 됨
                             response.setContentType("application/json;charset=UTF-8");            // 응답은 JSON
                             response.getWriter().write("{\"message\":\"인증되지 않은 회원입니다.\"}");
 
-                }).accessDeniedHandler((request, response, exception) -> {
+                        }).accessDeniedHandler((request, response, exception) -> {
                             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                             response.setContentType("application/json;charset=UTF-8");
                             response.getWriter().write("{\"message\":\"권한에 맞지 않은 회원입니다.\"}");
                         })
                 )
 
-                .authorizeHttpRequests(auth-> auth
-                        .requestMatchers("/auth/**").permitAll() // 인증
-                        .requestMatchers("/actuator/health", "/actuator/info").permitAll() // 모니터링
-                        .requestMatchers(
-                                "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()// Swagger API
-                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        // 프리플라이트(브라우저가 실제 요청 전에 서버에 보내는 사전 검사 요청) -> 막히게 되면 실제 API 호출 전에 실패 함
+                .authorizeHttpRequests(auth -> auth
+                                .requestMatchers("/auth/**").permitAll() // 인증
+                                .requestMatchers("/actuator/health", "/actuator/info").permitAll() // 모니터링
+                                .requestMatchers(
+                                        "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()// Swagger API
+                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                // 프리플라이트(브라우저가 실제 요청 전에 서버에 보내는 사전 검사 요청) -> 막히게 되면 실제 API 호출 전에 실패 함
 //                        .requestMatchers("/install/**","/agent-required/**","/download/agent").permitAll()
-                        .anyRequest().authenticated() // 다른 것에 대한것은 인증이 필요
+                                .anyRequest().authenticated() // 다른 것에 대한것은 인증이 필요
                 )
 
-                //  UsernamePasswordAuthenticationFilter 전에 JWT 필터 체인 삽입
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
                 //  기본 로그인/로그아웃 비활성 -> Rest + JWT 방식으로 진행
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -114,7 +108,7 @@ public class SecurityConfig {
 
     // 패스워드를 암호화하는 인코더
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

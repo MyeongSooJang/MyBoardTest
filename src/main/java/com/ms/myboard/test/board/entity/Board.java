@@ -1,5 +1,6 @@
 package com.ms.myboard.test.board.entity;
 
+import com.ms.myboard.test.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -17,7 +18,7 @@ public class Board {
     private String boardContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "memberName")
+    @JoinColumn(name = "memberName")
     private Member member;
 
     private LocalDateTime createTime;

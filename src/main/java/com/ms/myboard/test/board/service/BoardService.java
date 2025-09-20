@@ -4,7 +4,7 @@ import com.ms.myboard.test.board.dao.BoardRepository;
 import com.ms.myboard.test.board.dto.BoardRequest;
 import com.ms.myboard.test.board.dto.BoardResponse;
 import com.ms.myboard.test.board.entity.Board;
-import com.ms.myboard.test.board.entity.Member;
+import com.ms.myboard.test.member.entity.Member;
 import com.ms.myboard.test.member.dao.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

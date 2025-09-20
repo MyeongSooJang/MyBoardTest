@@ -1,5 +1,6 @@
 package com.ms.myboard.test.board.entity;
 
+import com.ms.myboard.test.member.entity.Member;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

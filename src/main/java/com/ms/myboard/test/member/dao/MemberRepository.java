@@ -1,6 +1,6 @@
 package com.ms.myboard.test.member.dao;
 
-import com.ms.myboard.test.board.entity.Member;
+import com.ms.myboard.test.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

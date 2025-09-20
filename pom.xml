@@ -11,8 +11,8 @@
 	<groupId>com.bs.boot</groupId>
 	<artifactId>myboardrest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>myboardrest</name>
-	<description>myboardrest</description>
+	<name>MyBoardTest</name>
+	<description>MyBoardTest</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -88,7 +88,11 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+		</dependency>
+	</dependencies>
 
 
 	<build>

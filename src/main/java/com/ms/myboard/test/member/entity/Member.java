@@ -1,4 +1,4 @@
-package com.ms.myboard.test.board.entity;
+package com.ms.myboard.test.member.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
