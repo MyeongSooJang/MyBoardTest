@@ -15,8 +15,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "AIRoom 아이룸 API",
                 description = "API 명세서",
-                version = "V1"
-        )
+                version = "V1")
 )
 public class SwaggerConfig {
 
@@ -25,7 +24,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group("api-definition")
                 .pathsToMatch("/**")
-                .packagesToScan("com.airoom.airoom")
+                .packagesToScan("com.ms.myboard.test")
                 .build();
     }
 
