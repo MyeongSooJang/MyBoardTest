@@ -7,9 +7,14 @@ import com.ms.myboard.test.board.entity.Board;
 import com.ms.myboard.test.member.entity.Member;
 import com.ms.myboard.test.member.dao.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PostLoad;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+
 
     public BoardResponse findBoardByBoardNo(Long boardNo) {
         Board board = boardRepository.findById(boardNo)
@@ -30,9 +36,32 @@ public class BoardService {
         Member member = memberRepository.findById(memberNo).orElseThrow(
                 ()->new EntityNotFoundException("해당하는 회원이 존재하지 않습니다."));
 
+        Board board = Board.builder()
+                .boardTitle(boardRequest.title())
+                .boardContent(boardRequest.content())
+                .member(member)
+                .createTime(LocalDateTime.now())
+                .boardCount(0)
+                .build();
 
-
-
+        Board savedBoard = boardRepository.save(board);
     }
+    public void updateBoard(Long boardNo, BoardRequest boardRequest) {
+        Board board = boardRepository.findById(boardNo)
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 존재하지 않습니다."));
+
+        // Board 엔티티에 업데이트 메소드가 필요합니다
+        board.updateBoard(boardRequest.title(), boardRequest.content());
+    }
+
+    public void deleteBoard(Long boardNo) {
+        if (!boardRepository.existsById(boardNo)) {
+            throw new EntityNotFoundException("해당하는 게시글이 존재하지 않습니다.");
+        }
+        boardRepository.deleteById(boardNo);
+    }
+
+
+
 
 }

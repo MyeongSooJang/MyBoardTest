@@ -26,4 +26,19 @@ public class BoardController {
         return ResponseEntity.ok().build();
     }
 
+    // 게시글 수정
+    @PutMapping("/{boardNo}")
+    public ResponseEntity<Void> updateBoard(@PathVariable Long boardNo,
+                                            @RequestBody BoardRequest boardRequest) {
+        boardService.updateBoard(boardNo, boardRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/{boardNo}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable Long boardNo) {
+        boardService.deleteBoard(boardNo);
+        return ResponseEntity.ok().build();
+    }
+
 }
