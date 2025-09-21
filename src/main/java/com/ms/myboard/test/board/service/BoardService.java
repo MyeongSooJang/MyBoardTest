@@ -4,15 +4,12 @@ import com.ms.myboard.test.board.dao.BoardRepository;
 import com.ms.myboard.test.board.dto.BoardRequest;
 import com.ms.myboard.test.board.dto.BoardResponse;
 import com.ms.myboard.test.board.entity.Board;
-import com.ms.myboard.test.member.entity.Member;
 import com.ms.myboard.test.member.dao.MemberRepository;
+import com.ms.myboard.test.member.entity.Member;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PostLoad;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -44,7 +41,7 @@ public class BoardService {
                 .boardCount(0)
                 .build();
 
-        Board savedBoard = boardRepository.save(board);
+        boardRepository.save(board);
     }
     public void updateBoard(Long boardNo, BoardRequest boardRequest) {
         Board board = boardRepository.findById(boardNo)
