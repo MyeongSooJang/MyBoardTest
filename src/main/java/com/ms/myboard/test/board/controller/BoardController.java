@@ -14,6 +14,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    // 게시글 조회
     @GetMapping("/{boardNo}")
     public ResponseEntity<BoardResponse> findBoard(@PathVariable Long boardNo) {
         return ResponseEntity.ok(boardService.findBoardByBoardNo(boardNo));
