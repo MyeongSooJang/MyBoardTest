@@ -3,6 +3,7 @@ package com.ms.myboard.test.exception;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -41,6 +42,30 @@ public class ExceptionHandler {
         response.put("status", 400);
         response.put("error", "BAD_REQUEST");
         response.put("message", e.getMessage());
+        response.put("timestamp", LocalDateTime.now());
+
+        return ResponseEntity.status(400).body(response);
+    }
+
+    /**
+     * 유효성 검사 실패 (400)
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidationError(MethodArgumentNotValidException e) {
+        log.warn("Validation error: {}", e.getMessage());
+
+        StringBuilder errorMessage = new StringBuilder();
+        e.getBindingResult().getFieldErrors().forEach(error -> {
+            if (errorMessage.length() > 0) {
+                errorMessage.append(", ");
+            }
+            errorMessage.append(error.getField()).append(": ").append(error.getDefaultMessage());
+        });
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", 400);
+        response.put("error", "VALIDATION_ERROR");
+        response.put("message", errorMessage.toString());
         response.put("timestamp", LocalDateTime.now());
 
         return ResponseEntity.status(400).body(response);
