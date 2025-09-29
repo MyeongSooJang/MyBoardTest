@@ -38,4 +38,7 @@ public class Board {
         this.boardTitle = title;
         this.boardContent = content;
     }
+    public void increaseViewCount() {
+        this.boardCount++;
+    }
 }

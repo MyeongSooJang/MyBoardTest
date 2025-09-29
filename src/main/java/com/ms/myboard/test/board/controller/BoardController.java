@@ -3,6 +3,7 @@ package com.ms.myboard.test.board.controller;
 import com.ms.myboard.test.board.dto.BoardRequest;
 import com.ms.myboard.test.board.dto.BoardResponse;
 import com.ms.myboard.test.board.service.BoardService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,13 @@ public class BoardController {
     @DeleteMapping("/{boardNo}")
     public ResponseEntity<Void> deleteBoard(@PathVariable Long boardNo) {
         boardService.deleteBoard(boardNo);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "게시글 조회수 증가")
+    @PatchMapping("/{boardNo}/view")
+    public ResponseEntity<Void> increaseViewCount(@PathVariable Long boardNo) {
+        boardService.increaseViewCount(boardNo);
         return ResponseEntity.ok().build();
     }
 

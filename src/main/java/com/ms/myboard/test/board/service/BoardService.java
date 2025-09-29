@@ -57,7 +57,15 @@ public class BoardService {
         }
         boardRepository.deleteById(boardNo);
     }
+    /**
+     * 게시글 조회수 증가
+     */
+    public void increaseViewCount(Long boardNo) {
+        Board board = boardRepository.findById(boardNo)
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 존재하지 않습니다."));
 
+        board.increaseViewCount();
+    }
 
 
 
