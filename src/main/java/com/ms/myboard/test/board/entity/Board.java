@@ -2,15 +2,20 @@ package com.ms.myboard.test.board.entity;
 
 import com.ms.myboard.test.member.entity.Member;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Board {
     @Id
+    @GeneratedValue
     private Long boardNo;
 
     private String boardTitle;
@@ -18,7 +23,7 @@ public class Board {
     private String boardContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberName")
+    @JoinColumn(name = "member_no")
     private Member member;
 
     private LocalDateTime createTime;
