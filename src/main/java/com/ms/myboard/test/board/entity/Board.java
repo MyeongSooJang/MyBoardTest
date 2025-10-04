@@ -32,4 +32,12 @@ public class Board {
 
     @OneToMany(mappedBy = "board", cascade =  CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    public void updateBoard(String title, String content) {
+        this.boardTitle = title;
+        this.boardContent = content;
+    }
+    public void increaseViewCount() {
+        this.boardCount++;
+    }
 }

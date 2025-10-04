@@ -12,6 +12,7 @@ import java.util.List;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
+    //
 
     // 제목으로 검색 (페이징)
     Page<Board> findByBoardTitleContaining(String title, Pageable pageable);

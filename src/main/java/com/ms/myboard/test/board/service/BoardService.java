@@ -4,8 +4,8 @@ import com.ms.myboard.test.board.dao.BoardRepository;
 import com.ms.myboard.test.board.dto.BoardRequest;
 import com.ms.myboard.test.board.dto.BoardResponse;
 import com.ms.myboard.test.board.entity.Board;
-import com.ms.myboard.test.member.entity.Member;
 import com.ms.myboard.test.member.dao.MemberRepository;
+import com.ms.myboard.test.member.entity.Member;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,12 +13,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+
 
     public BoardResponse findBoardByBoardNo(Long boardNo) {
         Board board = boardRepository.findById(boardNo)
@@ -32,10 +35,41 @@ public class BoardService {
         Member member = memberRepository.findById(memberNo).orElseThrow(
                 ()->new EntityNotFoundException("해당하는 회원이 존재하지 않습니다."));
 
+        Board board = Board.builder()
+                .boardTitle(boardRequest.title())
+                .boardContent(boardRequest.content())
+                .member(member)
+                .createTime(LocalDateTime.now())
+                .boardCount(0)
+                .build();
 
-
-
+        boardRepository.save(board);
     }
+    public void updateBoard(Long boardNo, BoardRequest boardRequest) {
+        Board board = boardRepository.findById(boardNo)
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 존재하지 않습니다."));
+
+        // Board 엔티티에 업데이트 메소드가 필요합니다
+        board.updateBoard(boardRequest.title(), boardRequest.content());
+    }
+
+    public void deleteBoard(Long boardNo) {
+        if (!boardRepository.existsById(boardNo)) {
+            throw new EntityNotFoundException("해당하는 게시글이 존재하지 않습니다.");
+        }
+        boardRepository.deleteById(boardNo);
+    }
+    /**
+     * 게시글 조회수 증가
+     */
+    public void increaseViewCount(Long boardNo) {
+        Board board = boardRepository.findById(boardNo)
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 게시글이 존재하지 않습니다."));
+
+        board.increaseViewCount();
+    }
+
+
 
     /**
      * 검색 타입에 따른 게시글 검색

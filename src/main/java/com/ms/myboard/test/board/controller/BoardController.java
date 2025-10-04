@@ -3,6 +3,7 @@ package com.ms.myboard.test.board.controller;
 import com.ms.myboard.test.board.dto.BoardRequest;
 import com.ms.myboard.test.board.dto.BoardResponse;
 import com.ms.myboard.test.board.service.BoardService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ public class BoardController implements BoardControllerSwagger {
 
     private final BoardService boardService;
 
+    // 게시글 조회
     @GetMapping("/{boardNo}")
     public ResponseEntity<BoardResponse> findBoard(@PathVariable Long boardNo) {
         return ResponseEntity.ok(boardService.findBoardByBoardNo(boardNo));
@@ -27,6 +29,28 @@ public class BoardController implements BoardControllerSwagger {
     public ResponseEntity<Void> saveBoard(@RequestBody BoardRequest boardRequest,
                                           Long memberNo) {
         boardService.saveBoard(boardRequest,memberNo);
+        return ResponseEntity.ok().build();
+    }
+
+    // 게시글 수정
+    @PutMapping("/{boardNo}")
+    public ResponseEntity<Void> updateBoard(@PathVariable Long boardNo,
+                                            @RequestBody BoardRequest boardRequest) {
+        boardService.updateBoard(boardNo, boardRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    // 게시글 삭제
+    @DeleteMapping("/{boardNo}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable Long boardNo) {
+        boardService.deleteBoard(boardNo);
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "게시글 조회수 증가")
+    @PatchMapping("/{boardNo}/view")
+    public ResponseEntity<Void> increaseViewCount(@PathVariable Long boardNo) {
+        boardService.increaseViewCount(boardNo);
         return ResponseEntity.ok().build();
     }
 
